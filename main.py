@@ -153,6 +153,13 @@ class ExploreHandler(webapp2.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'explore.html')
         self.response.out.write(template.render(path, template_values))
 
+        template_values = {
+            'users' : UserToHyperlink_list,
+        }
+
+        path = os.path.join(os.path.dirname(__file__), 'explore.html')
+        self.response.out.write(template.render(path, template_values))
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
