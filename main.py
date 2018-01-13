@@ -28,6 +28,7 @@ class Profile(ndb.Model):
     last_name = ndb.StringProperty()
     dob = ndb.DateProperty()
     children = ndb.KeyProperty(repeated=True)
+    skills = ndb.StringProperty(repeated=True)
 
 class Child(ndb.Model):
     # models a child with DOB
@@ -40,17 +41,29 @@ class MainHandler(webapp2.RequestHandler):
             self.response.headers['Content-Type'] = 'text/plain'
             self.response.out.write('Hello, ' + user.nickname())
         else:
-            self.response.write('Welcome! Please log in.')
+            self.response.write('Welcome! Please log in to get started.')
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if not user:
-            self.redirect(users.create_login_url(self.request.uri))
+            self.redirect(users.create_login_url('/profile'))
+        else:
+            self.redirect('/profile')
+
+class LogoutHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        if user:
+            self.redirect(users.create_logout_url('/'))
         else:
             self.redirect('/')
+
+# class ProfileHandler(webapp2.ProfileHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
+    ('/logout', LogoutHandler)
+    # ('/profile', ProfileHandler),
 ], debug=True)
