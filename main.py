@@ -47,9 +47,9 @@ class LoginHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if not user:
-            self.redirect(users.create_login_url('/profile'))
+            self.redirect(users.create_login_url('/myprofile'))
         else:
-            self.redirect('/profile')
+            self.redirect('/myprofile')
 
 class LogoutHandler(webapp2.RequestHandler):
     def get(self):
@@ -59,11 +59,11 @@ class LogoutHandler(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
-# class ProfileHandler(webapp2.ProfileHandler):
+# class MyProfileHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler)
-    # ('/profile', ProfileHandler),
+    # ('/myprofile', ProfileHandler),
 ], debug=True)
