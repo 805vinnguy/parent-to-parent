@@ -27,8 +27,11 @@ class Profile(ndb.Model):
     first_name = ndb.StringProperty()
     last_name = ndb.StringProperty()
     dob = ndb.DateProperty()
-    children = ndb.KeyProperty(repeated=True)
-    skills = ndb.StringProperty(repeated=True)
+    phone = ndb.StringProperty()
+    email = ndb.StringProperty()
+    about_me = ndb.StringProperty()
+    # children = ndb.KeyProperty(repeated=True)
+    # skills = ndb.StringProperty(repeated=True)
 
 class Child(ndb.Model):
     # models a child with DOB
@@ -59,11 +62,37 @@ class LogoutHandler(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
-# class MyProfileHandler(webapp2.RequestHandler):
+class MyProfileHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        if not user:
+            self.redirect(users.create_login_url(self.request.uri))
+        profile_key = ndb.Key('Profile', user.user_id())
+        profile = profile_key.get()
+        if profile is None:
+            profile = Profile()
+            profile.key = ndb.Key('Profile', user.user_id())
+            profile.put()
+            self.redirect('/editprofile')
+        else:
+            self.response.write(profile.first_name + ' ' + profile.last_name)
+
+class EditProfileHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        profile_key = ndb.Key('Profile', user.user_id())
+        profile = profile_key.get()
+
+        profile.first_name = 'Bob'
+        profile.last_name = 'Stewart'
+        profile.put()
+
+        self.redirect('/myprofile')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
-    ('/logout', LogoutHandler)
-    # ('/myprofile', ProfileHandler),
+    ('/logout', LogoutHandler),
+    ('/myprofile', MyProfileHandler),
+    ('/editprofile', EditProfileHandler)
 ], debug=True)
