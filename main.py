@@ -83,16 +83,40 @@ class EditProfileHandler(webapp2.RequestHandler):
         profile_key = ndb.Key('Profile', user.user_id())
         profile = profile_key.get()
 
-        profile.first_name = 'Bob'
-        profile.last_name = 'Stewart'
-        profile.put()
+        if profile is not None:
+            self.response.out.write("""
+                <html>
+                    <body>
+                        <form action="/edit" method="post">
+                            First name:<br>
+                            <input type="text" name="first_name"><br>
+                            Last name:<br>
+                            <input type="text" name="last_name"><br>
+                            Email:<br>
+                            <input type="text" name="email"><br>
+                            Phone:<br>
+                            <input type="text" name="phone"><br><br>
+                            <input type="submit" value="Submit">
+                        </form>
+                    </body>
+                </html>"""
+            )
+        else:
+            self.redirect('/')
 
-        self.redirect('/myprofile')
+class EditHandler(webapp2.RequestHandler)
+    def post(self):
+        user = users.get_current_user()
+        profile_key = ndb.Key('Profile', user.user_id())
+        profile = profile_key.get()
+
+        profile.first_name = self.request.get('first_name')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
     ('/myprofile', MyProfileHandler),
-    ('/editprofile', EditProfileHandler)
+    ('/editprofile', EditProfileHandler),
+    ('/edit', EditHandler)
 ], debug=True)
