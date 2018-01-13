@@ -18,9 +18,14 @@ import cgi
 import urllib
 import webapp2
 import datetime
+import os
 
 from google.appengine.ext import ndb
 from google.appengine.api import users
+from google.appengine.ext.webapp import template
+
+class UsersList(ndb.Model):
+    user_ids = ndb.StringProperty(repeated=True)
 
 class Profile(ndb.Model):
     # models a profile with necessary information
