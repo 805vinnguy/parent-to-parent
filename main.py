@@ -104,13 +104,20 @@ class EditProfileHandler(webapp2.RequestHandler):
         else:
             self.redirect('/')
 
-class EditHandler(webapp2.RequestHandler)
+class EditHandler(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
         profile_key = ndb.Key('Profile', user.user_id())
         profile = profile_key.get()
 
         profile.first_name = self.request.get('first_name')
+        profile.last_name = self.request.get('last_name')
+        profile.email = self.request.get('email')
+        profile.phone = self.request.get('phone')
+
+        profile.put()
+
+        self.redirect('/myprofile')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
