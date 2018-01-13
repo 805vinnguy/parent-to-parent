@@ -27,6 +27,11 @@ from google.appengine.ext.webapp import template
 class UsersList(ndb.Model):
     user_ids = ndb.StringProperty(repeated=True)
 
+class UserToHyperlink:
+    def __init__(self, user_id, user_fullname):
+        self.user_id = user_id
+        self.user_fullname = user_fullname
+
 class Profile(ndb.Model):
     # models a profile with necessary information
     first_name = ndb.StringProperty()
@@ -139,11 +144,12 @@ class ExploreHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         all_users = ndb.Key('UsersList', 'allUsers').get()
+        UserToHyperlink_list = []
         for user_id in all_users.user_ids:
             if user_id != user.user_id():
                 profile = ndb.Key('Profile', user_id).get()
-                self.response.write(profile.first_name + ' ' + profile.last_name)
-
+                UserToHyperlink_list.append(UserToHyperlink(user_id, profile.first_name + ' ' + profile.last_name))
+        # self.response.write(UserToHyperlink_list[0].user_id + ': ' + UserToHyperlink_list[0].user_fullname)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
