@@ -149,7 +149,9 @@ class ExploreHandler(webapp2.RequestHandler):
             if user_id != user.user_id():
                 profile = ndb.Key('Profile', user_id).get()
                 UserToHyperlink_list.append(UserToHyperlink(user_id, profile.first_name + ' ' + profile.last_name))
-        # self.response.write(UserToHyperlink_list[0].user_id + ': ' + UserToHyperlink_list[0].user_fullname)
+                
+        path = os.path.join(os.path.dirname(__file__), 'explore.html')
+        self.response.out.write(template.render(path, template_values))
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
