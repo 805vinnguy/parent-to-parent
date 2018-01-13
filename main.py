@@ -14,8 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from google.appengine.api import users
+import cgi
+import urllib
 import webapp2
+import datetime
+
+from google.appengine.ext import ndb
+from google.appengine.api import users
+
+class Profile(ndb.Model):
+    # models a profile with necessary information
+    first_name = ndb.StringProperty()
+    last_name = ndb.StringProperty()
+    dob = ndb.DateProperty()
+    children = ndb.KeyProperty(repeated=True)
+
+class Child(ndb.Model):
+    # models a child with DOB
+    dob = ndb.DateProperty()
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
