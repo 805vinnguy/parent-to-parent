@@ -45,6 +45,14 @@ class Child(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+        users_key = ndb.Key('UsersList', 'allUsers')
+        all_users = users_key.get()
+        if all_users is None:
+            all_users = UsersList()
+            all_users.key = ndb.Key('UsersList', 'allUsers')
+            all_users.user_ids = []
+            all_users.put()
+
         if user:
             self.response.headers['Content-Type'] = 'text/plain'
             self.response.out.write('Hello, ' + user.nickname())
@@ -74,10 +82,13 @@ class MyProfileHandler(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
         profile_key = ndb.Key('Profile', user.user_id())
         profile = profile_key.get()
+        users_list = ndb.Key('UsersList', 'allUsers').get()
         if profile is None:
             profile = Profile()
             profile.key = ndb.Key('Profile', user.user_id())
             profile.put()
+            users_list.user_ids.append(user.user_id())
+            users_list.put()
             self.redirect('/editprofile')
         else:
             self.response.write(profile.first_name + ' ' + profile.last_name)
