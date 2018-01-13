@@ -135,11 +135,22 @@ class EditHandler(webapp2.RequestHandler):
 
         self.redirect('/myprofile')
 
+class ExploreHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        all_users = ndb.Key('UsersList', 'allUsers').get()
+        for user_id in all_users.user_ids:
+            if user_id != user.user_id():
+                profile = ndb.Key('Profile', user_id).get()
+                self.response.write(profile.first_name + ' ' + profile.last_name)
+
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),
     ('/myprofile', MyProfileHandler),
     ('/editprofile', EditProfileHandler),
-    ('/edit', EditHandler)
+    ('/edit', EditHandler),
+    ('/explore', ExploreHandler)
 ], debug=True)
