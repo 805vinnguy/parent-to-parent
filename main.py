@@ -168,6 +168,19 @@ class ExploreHandler(webapp2.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'explore.html')
         self.response.out.write(template.render(path, template_values))
 
+class DisplayProfile(webapp2.RequestHandler):
+    def get(self):
+        url_id = self.request.get('id')
+        profile_key = ndb.Key('Profile', url_id)
+        profile = profile_key.get()
+
+        template_values = {
+            'profile' : profile
+        }
+
+        path = os.path.join(os.path.dirname(__file__), 'DisplayProfile.html')
+        self.response.out.write(template.render(path, template_values))
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/login', LoginHandler),
@@ -175,5 +188,6 @@ app = webapp2.WSGIApplication([
     ('/myprofile', MyProfileHandler),
     ('/editprofile', EditProfileHandler),
     ('/edit', EditHandler),
-    ('/explore', ExploreHandler)
+    ('/explore', ExploreHandler),
+    ('/viewprofile', DisplayProfile)
 ], debug=True)
