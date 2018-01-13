@@ -40,12 +40,23 @@ class Profile(ndb.Model):
     phone = ndb.StringProperty()
     email = ndb.StringProperty()
     about_me = ndb.StringProperty()
-    # children = ndb.KeyProperty(repeated=True)
+    children = ndb.KeyProperty(repeated=True)
+    schedule = ndb.KeyProperty(repeated=True) # list of Events
     # skills = ndb.StringProperty(repeated=True)
 
 class Child(ndb.Model):
     # models a child with DOB
+    first_name = ndb.StringProperty()
+    last_name = ndb.StringProperty()
     dob = ndb.DateProperty()
+
+class Event(ndb.Model):
+    # models a schedule with events that have a date, start time, end time,
+    # and description
+    date = ndb.DateProperty()
+    start = ndb.IntegerProperty()
+    end = ndb.IntegerProperty()
+    description = ndb.StringProperty()
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
