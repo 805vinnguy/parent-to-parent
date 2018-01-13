@@ -1,6 +1,7 @@
 <html>
   <body>
     {% for user in users %}
-      <a href={{ "/viewprofile?id=" + user.user_id }}> {{user.user_fullname}}</a><br>
+      <a href="/viewprofile?id={{ user.user_id }}"> {{user.user_fullname}}</a><br>
+    {% endfor %}
   </body>
 </html>
