@@ -128,6 +128,8 @@ class EditProfileHandler(webapp2.RequestHandler):
                             <input type="text" name="email"><br>
                             Phone:<br>
                             <input type="text" name="phone"><br><br>
+                            Write a little bit about yourself!<br>
+                            <div><textarea name="about_me" rows="3" cols="60"></textarea></div>
                             <input type="submit" value="Submit">
                         </form>
                     </body>
@@ -146,6 +148,7 @@ class EditHandler(webapp2.RequestHandler):
         profile.last_name = self.request.get('last_name')
         profile.email = self.request.get('email')
         profile.phone = self.request.get('phone')
+        profile.about_me = self.request.get('about_me')
 
         profile.put()
 
