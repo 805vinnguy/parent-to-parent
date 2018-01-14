@@ -203,8 +203,13 @@ class DisplayProfile(webapp2.RequestHandler):
         url_id = self.request.get('id')
         profile_key = ndb.Key('Profile', url_id)
         profile = profile_key.get()
+        events = []
+        for event_key in profile.schedule:
+            event = event_key.get()
+            events.append(event)
 
         template_values = {
+            'events' : events,
             'profile' : profile
         }
 
