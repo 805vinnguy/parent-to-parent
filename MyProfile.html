@@ -10,11 +10,10 @@
             <strong>Email:</strong> {{profile.email}} <br>
             <strong>Phone:</strong> {{profile.phone}} <br>
             <strong>About Me:</strong> <br>
-            {% if about_me == None %}
+            {{profile.about_me}}
+            <!-- {% if profile.about_me == "" %}
                 Click on <em>Edit Profile</em> and write a little about yourself! <br>
-            {% else %}
-                {{profile.about_me}} <br>
-            {% endif %}
+            {% endif %} -->
         </p>
     </body>
 </html>
