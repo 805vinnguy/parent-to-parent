@@ -42,7 +42,7 @@ class Profile(ndb.Model):
     about_me = ndb.StringProperty()
     children = ndb.KeyProperty(repeated=True)
     schedule = ndb.KeyProperty(repeated=True) # list of Events
-    # skills = ndb.StringProperty(repeated=True)
+    points = ndb.IntegerProperty()
 
 class Child(ndb.Model):
     # models a child with DOB
@@ -103,6 +103,7 @@ class MyProfileHandler(webapp2.RequestHandler):
             profile = Profile()
             profile.key = ndb.Key('Profile', user.user_id())
             profile.schedule = []
+            profile.points = 0
             profile.put()
             users_list.user_ids.append(user.user_id())
             users_list.put()

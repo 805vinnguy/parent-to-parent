@@ -1,6 +1,6 @@
 <html>
     <body>
-        <h1>{{profile.first_name}} {{profile.last_name}}'s Schedule</h1>
+        <h1>{{profile.first_name}} {{profile.last_name}}'s Profile</h1>
         <p>
             <strong>About me</strong> <br>
             {{profile.about_me}} <br>
@@ -11,9 +11,10 @@
             Phone: {{profile.phone}} <br>
         </p>
         <p>
-            <strong>{{profile.first_name}} {{profile.last_name}}'s Events</strong>
+            <strong>{{profile.first_name}} {{profile.last_name}}'s Schedule</strong>
         </p>
         {% for event in events %}
+        {% if event != None %}
             <p>
                 <strong>Date: </strong> {{event.date}} <br>
                 <strong>Start Time: </strong> {{event.start}} <br>
@@ -21,6 +22,7 @@
                 <strong>Description: </strong> <br>
                 {{event.description}}
             </p>
+        {% endif %}
         {% endfor %}
     </body>
 </html>
