@@ -107,7 +107,12 @@ class MyProfileHandler(webapp2.RequestHandler):
             users_list.put()
             self.redirect('/editprofile')
         else:
-            self.response.write(profile.first_name + ' ' + profile.last_name)
+            template_values = {
+                'profile' : profile
+            }
+            path = os.path.join(os.path.dirname(__file__), 'MyProfile.html')
+            self.response.out.write(template.render(path, template_values))
+            # self.response.write(profile.first_name + ' ' + profile.last_name)
 
 class EditProfileHandler(webapp2.RequestHandler):
     def get(self):

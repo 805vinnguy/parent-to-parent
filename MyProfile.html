@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <h1>My Profile</h1>
+        <p>
+            <a href="/editprofile?">Edit Profile</a>
+        </p>
+        <p>
+            <strong>First Name:</strong> {{profile.first_name}} <br>
+            <strong>Last Name:</strong> {{profile.last_name}} <br>
+            <strong>Email:</strong> {{profile.email}} <br>
+            <strong>Phone:</strong> {{profile.phone}} <br>
+            <strong>About Me:</strong> <br>
+            {% if about_me == None %}
+                Click on <em>Edit Profile</em> and write a little about yourself! <br>
+            {% else %}
+                {{profile.about_me}} <br>
+            {% endif %}
+        </p>
+    </body>
+</html>
