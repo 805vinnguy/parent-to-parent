@@ -53,9 +53,9 @@ class Child(ndb.Model):
 class Event(ndb.Model):
     # models a schedule with events that have a date, start time, end time,
     # and description
-    date = ndb.DateProperty()
-    start = ndb.IntegerProperty()
-    end = ndb.IntegerProperty()
+    date = ndb.StringProperty()
+    start = ndb.StringProperty()
+    end = ndb.StringProperty()
     description = ndb.StringProperty()
 
 class MainHandler(webapp2.RequestHandler):
@@ -108,7 +108,13 @@ class MyProfileHandler(webapp2.RequestHandler):
             users_list.put()
             self.redirect('/editprofile')
         else:
+            events = []
+            for event_key in profile.schedule:
+                event = event_key.get()
+                events.append(event)
+
             template_values = {
+                'events' : events,
                 'profile' : profile
             }
             path = os.path.join(os.path.dirname(__file__), 'MyProfile.html')
@@ -143,6 +149,35 @@ class EditHandler(webapp2.RequestHandler):
         profile.phone = self.request.get('phone')
         profile.about_me = self.request.get('about_me')
 
+        profile.put()
+
+        self.redirect('/myprofile')
+
+class AddEventHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        profile_key = ndb.Key('Profile', user.user_id())
+        profile = profile_key.get()
+
+        template_values = {}
+
+        if profile is not None:
+            path = os.path.join(os.path.dirname(__file__), 'addEvent.html')
+            self.response.out.write(template.render(path, template_values))
+        else:
+            self.redirect('/')
+
+class NewEventHandler(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        profile = ndb.Key('Profile', user.user_id()).get()
+        new_event = Event()
+        new_event.date = self.request.get('date')
+        new_event.start = self.request.get('start_time')
+        new_event.end = self.request.get('end_time')
+        new_event.description = self.request.get('description')
+        new_event.put()
+        profile.schedule.append(new_event.key)
         profile.put()
 
         self.redirect('/myprofile')
@@ -185,5 +220,7 @@ app = webapp2.WSGIApplication([
     ('/editprofile', EditProfileHandler),
     ('/edit', EditHandler),
     ('/explore', ExploreHandler),
-    ('/viewprofile', DisplayProfile)
+    ('/viewprofile', DisplayProfile),
+    ('/addevent', AddEventHandler),
+    ('/newevent', NewEventHandler)
 ], debug=True)

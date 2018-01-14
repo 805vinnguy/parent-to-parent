@@ -15,5 +15,19 @@
                 Click on <em>Edit Profile</em> and write a little about yourself! <br>
             {% endif %} -->
         </p>
+        <p>
+          <strong>My Events:</strong> <br>
+        </p>
+
+        {% for event in events %}
+        <p>
+          <strong>Date: </strong> {{event.date}} <br>
+          <strong>Start Time: </strong> {{event.start}} <br>
+          <strong>End Time: </strong> {{event.end}} <br>
+          <strong>Description: </strong> <br>
+          {{event.description}}
+        </p>
+        {% endfor %}
+
     </body>
 </html>
