@@ -102,6 +102,7 @@ class MyProfileHandler(webapp2.RequestHandler):
         if profile is None:
             profile = Profile()
             profile.key = ndb.Key('Profile', user.user_id())
+            profile.schedule = []
             profile.put()
             users_list.user_ids.append(user.user_id())
             users_list.put()
