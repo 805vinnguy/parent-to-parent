@@ -115,26 +115,11 @@ class EditProfileHandler(webapp2.RequestHandler):
         profile_key = ndb.Key('Profile', user.user_id())
         profile = profile_key.get()
 
+        template_values = {}
+
         if profile is not None:
-            self.response.out.write("""
-                <html>
-                    <body>
-                        <form action="/edit" method="post">
-                            First name:<br>
-                            <input type="text" name="first_name"><br>
-                            Last name:<br>
-                            <input type="text" name="last_name"><br>
-                            Email:<br>
-                            <input type="text" name="email"><br>
-                            Phone:<br>
-                            <input type="text" name="phone"><br><br>
-                            Write a little bit about yourself!<br>
-                            <div><textarea name="about_me" rows="3" cols="60"></textarea></div>
-                            <input type="submit" value="Submit">
-                        </form>
-                    </body>
-                </html>"""
-            )
+            path = os.path.join(os.path.dirname(__file__), 'editProfile.html')
+            self.response.out.write(template.render(path, template_values))
         else:
             self.redirect('/')
 
