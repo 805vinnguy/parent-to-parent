@@ -21,6 +21,7 @@
         </p>
 
         {% for event in events %}
+        {% if event != None %}
         <p>
           <strong>Date: </strong> {{event.date}} <br>
           <strong>Start Time: </strong> {{event.start}} <br>
@@ -28,6 +29,7 @@
           <strong>Description: </strong> <br>
           {{event.description}}
         </p>
+        {% endif %}
         {% endfor %}
 
     </body>
