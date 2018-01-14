@@ -113,7 +113,7 @@ class MyProfileHandler(webapp2.RequestHandler):
             }
             path = os.path.join(os.path.dirname(__file__), 'MyProfile.html')
             self.response.out.write(template.render(path, template_values))
-            # self.response.write(profile.first_name + ' ' + profile.last_name)
+            
 
 class EditProfileHandler(webapp2.RequestHandler):
     def get(self):
