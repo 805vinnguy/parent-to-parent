@@ -116,7 +116,9 @@ class EditProfileHandler(webapp2.RequestHandler):
         profile_key = ndb.Key('Profile', user.user_id())
         profile = profile_key.get()
 
-        template_values = {}
+        template_values = {
+            'profile': profile
+        }
 
         if profile is not None:
             path = os.path.join(os.path.dirname(__file__), 'editProfile.html')
