@@ -2,15 +2,16 @@
     <body>
         <form action="/edit" method="post">
             First name:<br>
-            <input type="text" name="first_name"><br>
+            <input type="text" name="first_name" value= {{profile.first_name|default_if_none:""}}><br>
             Last name:<br>
-            <input type="text" name="last_name"><br>
+            <input type="text" name="last_name" value= {{profile.last_name|default_if_none:""}}><br>
             Email:<br>
-            <input type="text" name="email"><br>
+            <input type="text" name="email" value= {{profile.email|default_if_none:""}}><br>
             Phone:<br>
-            <input type="text" name="phone"><br><br>
+            <input type="text" name="phone" value= {{profile.phone|default_if_none:""}}><br><br>
             Write a little bit about yourself!<br>
-            <div><textarea name="about_me" rows="3" cols="60"></textarea></div>
+            <div><textarea name="about_me" rows="3" cols="60">
+              {{profile.about_me|default_if_none:""}} </textarea></div>
             <input type="submit" value="Submit">
         </form>
     </body>

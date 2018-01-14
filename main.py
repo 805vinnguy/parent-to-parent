@@ -102,6 +102,7 @@ class MyProfileHandler(webapp2.RequestHandler):
         if profile is None:
             profile = Profile()
             profile.key = ndb.Key('Profile', user.user_id())
+            profile.schedule = []
             profile.put()
             users_list.user_ids.append(user.user_id())
             users_list.put()
@@ -120,7 +121,9 @@ class EditProfileHandler(webapp2.RequestHandler):
         profile_key = ndb.Key('Profile', user.user_id())
         profile = profile_key.get()
 
-        template_values = {}
+        template_values = {
+            'profile': profile
+        }
 
         if profile is not None:
             path = os.path.join(os.path.dirname(__file__), 'editProfile.html')
