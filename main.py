@@ -70,10 +70,12 @@ class MainHandler(webapp2.RequestHandler):
             all_users.put()
 
         if user:
-            self.response.headers['Content-Type'] = 'text/plain'
-            self.response.out.write('Hello, ' + user.nickname())
+            self.redirect("/myprofile")
         else:
-            self.response.write('Welcome! Please log in to get started.')
+            self.response.write("""
+            <html>
+            Welcome! Please <a href="/login">log in</a> to get started.
+            </html>""")
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
